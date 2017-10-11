@@ -10,8 +10,11 @@ public class TankBehavior : MonoBehaviour {
 	public float movingForce = 1f;
 	public float breakForce = 1f;
 	public float rotateSpeed = 30f;
+	public Vector3 shootOffset;
+	public Vector3 shootVelocity;
 
 	public MyButton forwardBtn, breakBtn, rightBtn, leftBtn;
+	public GameObject BulletGroup, BulletPrefab;
 
 	private Transform camTrans;
 	private Rigidbody rigidBody;
@@ -39,6 +42,10 @@ public class TankBehavior : MonoBehaviour {
 				-1f, 1f
 			));
 		}
+
+		if (Input.GetKeyDown (KeyCode.LeftControl) || Input.GetMouseButtonDown (1)) {
+			Shoot ();
+		}
 	}
 
 	void LateUpdate() {
@@ -51,22 +58,30 @@ public class TankBehavior : MonoBehaviour {
 		camTrans.LookAt (lookAt, Vector3.up);
 	}
 
-	public void Move(float mag) {
+	void Move(float mag) {
 		rigidBody.AddForce (
 			transform.forward * mag * movingForce * Time.deltaTime
 		);
 	}
 
-	public void Rotate(float mag) {
+	void Rotate(float mag) {
 		transform.Rotate (
 			transform.up,
 			mag * rotateSpeed * Time.deltaTime
 		);
 	}
 
-	public void Break() {
+	void Break() {
 		Vector3 v = rigidBody.velocity;
 		float mag = Mathf.Min (v.magnitude, breakForce * Time.deltaTime);
 		rigidBody.velocity -= v.normalized * mag;
+	}
+
+	void Shoot() {
+		Quaternion rotation = Quaternion.FromToRotation (Vector3.forward, transform.forward);
+
+		GameObject newBullet = Instantiate (BulletPrefab, BulletGroup.transform);
+		newBullet.transform.position = transform.position + rotation * shootOffset;
+		newBullet.GetComponent<Rigidbody> ().velocity = rotation * shootVelocity + rigidBody.velocity;
 	}
 }

@@ -316,7 +316,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &257151152
 GameObject:
@@ -655,7 +655,7 @@ RectTransform:
   m_Children:
   - {fileID: 171028215}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -777,10 +777,15 @@ MonoBehaviour:
   movingForce: 1000
   breakForce: 1
   rotateSpeed: 60
+  shootOffset: {x: 0, y: 0.5, z: 2}
+  shootVelocity: {x: 0, y: 5, z: 10}
   forwardBtn: {fileID: 1193204387}
   breakBtn: {fileID: 405761750}
   rightBtn: {fileID: 1263191257}
   leftBtn: {fileID: 55016589}
+  BulletGroup: {fileID: 1802770550}
+  BulletPrefab: {fileID: 1805860830288644, guid: 2b9a7dbb5d09d3b4bb2bb83679be0880,
+    type: 2}
 --- !u!1 &1193204385
 GameObject:
   m_ObjectHideFlags: 0
@@ -1078,6 +1083,34 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1441414299}
+--- !u!1 &1802770550
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1802770551}
+  m_Layer: 0
+  m_Name: Bullets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1802770551
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1802770550}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1836088206
 GameObject:
   m_ObjectHideFlags: 0
