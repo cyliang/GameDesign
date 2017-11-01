@@ -3,30 +3,36 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class PlayerScript : MonoBehaviour {
+public class PlayerScript : BulletBehavior {
 
 	public float speed;
 	public float jumpSpeed;
 	public float maxHeight;
+	public float bulletSpeed;
 	public Vector3 direction;
-	public Text scoreText, resultText;
-	public AudioClip[] scoreClips;
-	public GameObject scoreEffect;
-	public AudioClip[] footSound;
-	public float footVolume;
+
+	public Text scoreText;
+	public GameObject bullet, bulletGroup;
 
 	Rigidbody rb;
-	int score;
 
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
-		score = 0;
-		updateScore ();
+		GameModel.scoreText = scoreText;
+		GameModel.updateScore ();
 	}
 
 	void Update() {
 		if (transform.position.y < -10) {
 			GameModel.lose ();
+		}
+
+		if (Input.GetKeyDown (KeyCode.Mouse0)) {
+			Quaternion rotate = Quaternion.AngleAxis (-20, Vector3.right);
+
+			GameObject newBullet = Instantiate (bullet, bulletGroup.transform);
+			newBullet.transform.position = transform.position + rotate * direction * 2f;
+			newBullet.GetComponent<Rigidbody> ().velocity = rb.velocity + rotate * direction * bulletSpeed;
 		}
 	}
 	
@@ -42,32 +48,5 @@ public class PlayerScript : MonoBehaviour {
 				Vector3.Cross(Vector3.up, direction) * Input.GetAxis ("Horizontal")				
 			) * speed);
 		}
-	}
-
-	void OnTriggerEnter (Collider other) {
-		if (other.gameObject.CompareTag ("Treasure")) {
-			other.gameObject.transform.parent.gameObject.SetActive (false);
-
-			AudioSource.PlayClipAtPoint (scoreClips [Random.Range (0, scoreClips.Length)], transform.position);
-			Instantiate (scoreEffect, other.transform.position, Quaternion.identity);
-
-			score++;
-			updateScore ();
-
-			if (score == 10)
-				GameModel.win ();
-		}
-	}
-
-	void OnCollisionEnter (Collision collision) {
-		if (collision.collider.gameObject.CompareTag ("Ground")) {
-			AudioSource.PlayClipAtPoint (footSound [Random.Range (0, footSound.Length)], 
-				collision.contacts[0].point, 
-				10f * collision.relativeVelocity.magnitude);
-		}
-	}
-
-	void updateScore() {
-		scoreText.text = "Score: " + score.ToString ();
 	}
 }
