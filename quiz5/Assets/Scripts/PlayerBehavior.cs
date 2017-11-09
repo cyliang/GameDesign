@@ -5,7 +5,9 @@ using UnityEngine;
 public class PlayerBehavior : MonoBehaviour {
 
 	public float moveSpeed, jumpSpeed;
+	public float bulletSpeed;
 	public GameObject hand;
+	public GameObject bullet;
 
 	private Rigidbody2D rb;
 
@@ -32,5 +34,11 @@ public class PlayerBehavior : MonoBehaviour {
 
 		Vector3 handPivot = hand.transform.position;
 		hand.transform.rotation = Quaternion.FromToRotation (Vector3.right, mouse - handPivot);
+
+		if (Input.GetMouseButtonDown (0)) {
+			GameObject newBullet = Instantiate (bullet);
+			newBullet.transform.position = handPivot + hand.transform.rotation * Vector3.right * 0.8f;
+			newBullet.GetComponent<Rigidbody2D> ().velocity = hand.transform.rotation * Vector3.right * bulletSpeed;
+		}
 	}
 }

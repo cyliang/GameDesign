@@ -289,7 +289,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.01
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -392,7 +392,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpSpeed: 10
+  bulletSpeed: 20
   hand: {fileID: 1129789480}
+  bullet: {fileID: 1109420124308718, guid: 9a65f4e6fa202d74596ef2faddcdc42b, type: 2}
 --- !u!1 &261364936
 GameObject:
   m_ObjectHideFlags: 0
