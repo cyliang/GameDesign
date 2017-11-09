@@ -17,7 +17,7 @@ public class PlayerBehavior : MonoBehaviour {
 	void Update () {
 		transform.position += Vector3.right * Input.GetAxis ("Horizontal") * Time.deltaTime * moveSpeed;
 
-		if (Input.GetKeyDown (KeyCode.Space) && rb.velocity.y < 0.1) {
+		if (Input.GetKeyDown (KeyCode.Space) && rb.velocity.y == 0f) {
 			rb.velocity += Vector2.up * jumpSpeed;
 		}
 	}
