@@ -1,0 +1,24 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerBehavior : MonoBehaviour {
+
+	public float moveSpeed, jumpSpeed;
+
+	private Rigidbody2D rb;
+
+	// Use this for initialization
+	void Start () {
+		rb = GetComponent<Rigidbody2D> ();
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		transform.position += Vector3.right * Input.GetAxis ("Horizontal") * Time.deltaTime * moveSpeed;
+
+		if (Input.GetKeyDown (KeyCode.Space) && rb.velocity.y < 0.1) {
+			rb.velocity += Vector2.up * jumpSpeed;
+		}
+	}
+}
