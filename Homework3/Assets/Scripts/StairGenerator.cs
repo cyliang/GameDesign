@@ -5,7 +5,7 @@ using UnityEngine;
 public class StairGenerator : MonoBehaviour {
 
 	public Vector2 genPosBegin, genPosEnd;
-	public GameObject stairPrefab;
+	public GameObject stairPrefab, fireStairPrefab;
 	public AudioClip turnaroundSound;
 
 	[HideInInspector]
@@ -14,14 +14,25 @@ public class StairGenerator : MonoBehaviour {
 	public enum StairType
 	{
 		Normal,
-		Moving
+		Moving,
+		OnFire,
 	}
 
 	public GameObject genStairAtRandom(StairType stairType = StairType.Normal) {
 		Vector2 genPos = Vector2.Lerp (genPosBegin, genPosEnd, Random.value);
 
+		GameObject prefab;
+		switch (stairType) {
+		case StairType.OnFire:
+			prefab = fireStairPrefab;
+			break;
+		default:
+			prefab = stairPrefab;
+			break;
+		}
+
 		GameObject newStair = Instantiate (
-		    stairPrefab,
+		    prefab,
 			genPos,
 		    Quaternion.identity,
 		    transform
@@ -34,6 +45,11 @@ public class StairGenerator : MonoBehaviour {
 			moving.minX = Mathf.Max (genPos.x - movingRange, genPosBegin.x);
 			moving.speed = movingSpeed;
 			moving.turnaroundSound = turnaroundSound;
+			break;
+		case StairType.OnFire:
+			DamagingTouch damaging = newStair.AddComponent<DamagingTouch> ();
+			damaging.gameController = FindObjectOfType<GameController> ();
+			damaging.hurt = 10f;
 			break;
 		}
 

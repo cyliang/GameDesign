@@ -34,6 +34,7 @@ public class GameController : MonoBehaviour {
 	public AudioClip gameEnd;
 	public AudioClip showPanel;
 	public AudioClip stageIncrement;
+	public AudioClip damaging;
 
 	bool isPlaying = false;
 	float HP;
@@ -84,6 +85,9 @@ public class GameController : MonoBehaviour {
 
 		if (HP <= 0f) {
 			dead ();
+			AudioSource.PlayClipAtPoint (gameEnd, Camera.main.transform.position);
+		} else {
+			AudioSource.PlayClipAtPoint (damaging, Camera.main.transform.position);
 		}
 	}
 
@@ -104,7 +108,6 @@ public class GameController : MonoBehaviour {
 
 	void dead() {
 		isPlaying = false;
-		AudioSource.PlayClipAtPoint (gameEnd, Camera.main.transform.position);
 		player.SendMessage ("PerformDead");
 	}
 

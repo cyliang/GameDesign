@@ -10,4 +10,8 @@ public class DamagingTouch : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other) {
 		gameController.MakeDamage (hurt);
 	}
+
+	void OnCollisionEnter2D(Collision2D other) {
+		gameController.MakeDamage (hurt);
+	}
 }
