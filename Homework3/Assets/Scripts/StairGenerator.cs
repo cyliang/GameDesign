@@ -6,6 +6,7 @@ public class StairGenerator : MonoBehaviour {
 
 	public Vector2 genPosBegin, genPosEnd;
 	public GameObject stairPrefab;
+	public AudioClip turnaroundSound;
 
 	[HideInInspector]
 	public float movingSpeed, movingRange;
@@ -32,6 +33,7 @@ public class StairGenerator : MonoBehaviour {
 			moving.maxX = Mathf.Min (genPos.x + movingRange, genPosEnd.x);
 			moving.minX = Mathf.Max (genPos.x - movingRange, genPosBegin.x);
 			moving.speed = movingSpeed;
+			moving.turnaroundSound = turnaroundSound;
 			break;
 		}
 

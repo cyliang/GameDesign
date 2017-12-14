@@ -24,4 +24,15 @@ public class PlayerMove : MonoBehaviour {
 
 		animator.SetFloat("Speed", velocity.magnitude);
 	}
+		
+	void PerformDead() {
+		rb.isKinematic = true;
+		rb.velocity = Vector2.zero;
+		animator.SetTrigger("Dead");
+	}
+
+	void FinishDead() {
+		FindObjectOfType<GameController> ().SendMessage ("FinishDeadAnimation");
+		rb.isKinematic = false;
+	}
 }

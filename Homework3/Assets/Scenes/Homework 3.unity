@@ -1287,6 +1287,7 @@ MonoBehaviour:
   genPosEnd: {x: 4.75, y: -5.15}
   stairPrefab: {fileID: 1107948152740292, guid: 41fa0693b69a76e47bdd685bdd084566,
     type: 2}
+  turnaroundSound: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
   movingSpeed: 0
   movingRange: 0
 --- !u!1 &1012208339
@@ -2889,6 +2890,10 @@ MonoBehaviour:
   stairTypeProbability:
   - stairType: 1
     appearProbability: 0.375
+  gameStart: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
+  gameEnd: {fileID: 8300000, guid: a235d590ef2a04d1b85b61ef4c21337c, type: 3}
+  showPanel: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
+  stageIncrement: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633, type: 3}
 --- !u!4 &1900950736
 Transform:
   m_ObjectHideFlags: 0

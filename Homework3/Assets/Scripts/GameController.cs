@@ -29,15 +29,22 @@ public class GameController : MonoBehaviour {
 	public StairGenerator stairGenerator;
 	public StairTypeProbability[] stairTypeProbability;
 
+	[Header("Sound Effect")]
+	public AudioClip gameStart;
+	public AudioClip gameEnd;
+	public AudioClip showPanel;
+	public AudioClip stageIncrement;
+
 	bool isPlaying = false;
 	float HP;
-	int stage, record;
+	int stage = 0, record = 0;
 	int count = 0;
 	Vector3 playerStartPos;
 
 	void Start () {
 		playerStartPos = player.transform.position;
 		Debug.Assert (stairTypeProbability.Sum (t => t.appearProbability) <= 1.0f);
+		FinishDeadAnimation ();
 	}
 		
 	void Update () {
@@ -63,6 +70,8 @@ public class GameController : MonoBehaviour {
 
 			stairGenerator.genStairAtRandom (type);
 			stage++;
+			if (stage % 10 == 0)
+				AudioSource.PlayClipAtPoint (stageIncrement, Camera.main.transform.position);
 			updateInfo ();
 		}
 
@@ -81,15 +90,22 @@ public class GameController : MonoBehaviour {
 	public void startPlay() {
 		isPlaying = true;
 		gameStopPanel.SetActive (false);
+		AudioSource.PlayClipAtPoint (gameStart, Camera.main.transform.position);
 		replay ();
 	}
 
-	void dead() {
-		isPlaying = false;
+	void FinishDeadAnimation() {
+		AudioSource.PlayClipAtPoint (showPanel, Camera.main.transform.position);
 		gameStopPanel.SetActive (true);
 		player.SetActive (false);
 		record = Mathf.Max (record, stage);
 		recordText2.text = record.ToString ();
+	}
+
+	void dead() {
+		isPlaying = false;
+		AudioSource.PlayClipAtPoint (gameEnd, Camera.main.transform.position);
+		player.SendMessage ("PerformDead");
 	}
 
 	void replay() {

@@ -6,6 +6,7 @@ public class MovingStair : MonoBehaviour {
 
 	public float minX, maxX;
 	public float speed;
+	public AudioClip turnaroundSound;
 
 	int toward;
 	Rigidbody2D standing;
@@ -27,6 +28,7 @@ public class MovingStair : MonoBehaviour {
 		    pos.x == maxX && toward == 1) {
 
 			toward *= -1;
+			AudioSource.PlayClipAtPoint (turnaroundSound, pos);
 		}
 
 		if (standing != null) {
