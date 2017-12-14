@@ -2893,7 +2893,7 @@ MonoBehaviour:
   - stairType: 1
     appearProbability: 0.375
   - stairType: 2
-    appearProbability: 0.445
+    appearProbability: 0.103
   gameStart: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
   gameEnd: {fileID: 8300000, guid: a235d590ef2a04d1b85b61ef4c21337c, type: 3}
   showPanel: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}

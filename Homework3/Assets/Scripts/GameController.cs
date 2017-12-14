@@ -42,6 +42,22 @@ public class GameController : MonoBehaviour {
 	int count = 0;
 	Vector3 playerStartPos;
 
+	float lFloatingSpeed {
+		get {
+			return floatingSpeed + 0.01f * stage;
+		}
+	}
+	int lStairPeriod {
+		get {
+			return stairPeriod - stage;
+		}
+	}
+	float lStairMovingSpeed {
+		get {
+			return stairMovingSpeed + stage * 0.01f;
+		}
+	}
+
 	void Start () {
 		playerStartPos = player.transform.position;
 		Debug.Assert (stairTypeProbability.Sum (t => t.appearProbability) <= 1.0f);
@@ -52,18 +68,19 @@ public class GameController : MonoBehaviour {
 		if (!isPlaying)
 			return;
 		
-		FloatingObject.Float (floatingSpeed * Time.deltaTime);
+		FloatingObject.Float (lFloatingSpeed * Time.deltaTime);
 	}
 
 	void FixedUpdate() {
 		if (!isPlaying)
 			return;
 		
-		if (count % stairPeriod == 0) {
+		if (count % lStairPeriod == 0) {
 			float rand = Random.value;
 			StairGenerator.StairType type = StairGenerator.StairType.Normal;
 			foreach (StairTypeProbability t in stairTypeProbability) {
-				if ((rand -= t.appearProbability) <= 0f) {
+				float prob = Mathf.Min (0.5f, t.appearProbability + 0.02f * stage);
+				if ((rand -= prob) <= 0f) {
 					type = t.stairType;
 					break;
 				}
@@ -71,8 +88,10 @@ public class GameController : MonoBehaviour {
 
 			stairGenerator.genStairAtRandom (type);
 			stage++;
-			if (stage % 10 == 0)
+			if (stage % 10 == 0) {
 				AudioSource.PlayClipAtPoint (stageIncrement, Camera.main.transform.position);
+				HP = Mathf.Min (maxHP, HP + 10);
+			}
 			updateInfo ();
 		}
 
@@ -117,7 +136,7 @@ public class GameController : MonoBehaviour {
 		HPSlider.minValue = 0f;
 		HPSlider.maxValue = maxHP;
 		stage = 0;
-		stairGenerator.movingSpeed = stairMovingSpeed;
+		stairGenerator.movingSpeed = lStairMovingSpeed;
 		stairGenerator.movingRange = stairMovingRange;
 		updateInfo ();
 
