@@ -1,21 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
+	[System.Serializable]
+	public class StairTypeProbability {
+		public StairGenerator.StairType stairType;
+		[Range(0f, 1f)]
+		public float appearProbability;
+	}
+
+	[Header("Game Configuration")]
 	public float floatingSpeed;
 	public int stairPeriod;
-
+	public float stairMovingSpeed, stairMovingRange;
 	public float maxHP;
 
+	[Header("Game Objects")]
 	public Slider HPSlider;
 	public Text stageText, recordText, recordText2;
-
 	public GameObject player;
 	public GameObject gameStopPanel;
+
+	[Header("Stair Genaration Configuration")]
 	public StairGenerator stairGenerator;
+	public StairTypeProbability[] stairTypeProbability;
 
 	bool isPlaying = false;
 	float HP;
@@ -25,6 +37,7 @@ public class GameController : MonoBehaviour {
 
 	void Start () {
 		playerStartPos = player.transform.position;
+		Debug.Assert (stairTypeProbability.Sum (t => t.appearProbability) <= 1.0f);
 	}
 		
 	void Update () {
@@ -39,7 +52,16 @@ public class GameController : MonoBehaviour {
 			return;
 		
 		if (count % stairPeriod == 0) {
-			stairGenerator.genStairAtRandom ();
+			float rand = Random.value;
+			StairGenerator.StairType type = StairGenerator.StairType.Normal;
+			foreach (StairTypeProbability t in stairTypeProbability) {
+				if ((rand -= t.appearProbability) <= 0f) {
+					type = t.stairType;
+					break;
+				}
+			}
+
+			stairGenerator.genStairAtRandom (type);
 			stage++;
 			updateInfo ();
 		}
@@ -76,6 +98,8 @@ public class GameController : MonoBehaviour {
 		HPSlider.minValue = 0f;
 		HPSlider.maxValue = maxHP;
 		stage = 0;
+		stairGenerator.movingSpeed = stairMovingSpeed;
+		stairGenerator.movingRange = stairMovingRange;
 		updateInfo ();
 
 		// Scene reset

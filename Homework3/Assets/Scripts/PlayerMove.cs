@@ -17,10 +17,11 @@ public class PlayerMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float movement = Input.GetAxis ("Horizontal") * moveSpeed * Time.deltaTime;
-		rb.position += Vector2.right * movement;
-		transform.localEulerAngles = Vector3.up * (movement > 0f ? 0f : 180f);
+		Vector2 velocity = rb.velocity;
+		velocity.x = Input.GetAxis ("Horizontal") * moveSpeed;
+		transform.localEulerAngles = Vector3.up * (velocity.x > 0f ? 0f : 180f);
+		rb.velocity = velocity;
 
-		animator.SetFloat("Speed", rb.velocity.y != 0f ? 5f : movement * 20f);
+		animator.SetFloat("Speed", velocity.magnitude);
 	}
 }

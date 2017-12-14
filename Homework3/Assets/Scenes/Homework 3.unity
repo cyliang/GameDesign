@@ -851,6 +851,10 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013234968400, guid: 4a6e9a7d544412d4d92db88d8587228e, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4a6e9a7d544412d4d92db88d8587228e, type: 2}
   m_IsPrefabParent: 0
@@ -1064,6 +1068,8 @@ MonoBehaviour:
   genPosEnd: {x: 4.75, y: -5.15}
   stairPrefab: {fileID: 1107948152740292, guid: 41fa0693b69a76e47bdd685bdd084566,
     type: 2}
+  movingSpeed: 0
+  movingRange: 0
 --- !u!1 &1012208339
 GameObject:
   m_ObjectHideFlags: 0
@@ -2577,6 +2583,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floatingSpeed: 1
   stairPeriod: 150
+  stairMovingSpeed: 5
+  stairMovingRange: 2
   maxHP: 100
   HPSlider: {fileID: 32154512}
   stageText: {fileID: 1547963233}
@@ -2585,6 +2593,9 @@ MonoBehaviour:
   player: {fileID: 1702629120}
   gameStopPanel: {fileID: 1686004771}
   stairGenerator: {fileID: 986252098}
+  stairTypeProbability:
+  - stairType: 1
+    appearProbability: 0.375
 --- !u!4 &1900950736
 Transform:
   m_ObjectHideFlags: 0
